@@ -1,19 +1,11 @@
-## Contexto
+## MFE
 
+### Componentes
+- Crea dentro del MF <NOMBRE_DEL_MF> una interfaz en modo de widget para mostrar información relacionada <INFORMACION_DEL_WIDGET>, usa TailwindCSS para los estilos (no lo instales ya que lo tengo importado desde CDM mediante HTML)
+- En el MFE shell implementa el hook useDashboard para obtener los datos de Crypto y Wheather
 
-## Componentes
-> Crea dentro del MF <NOMBRE_DEL_MF> una interfaz en modo de widget para mostrar información relacionada <INFORMACION_DEL_WIDGET>, usa TailwindCSS para los estilos (no lo instales ya que lo tengo importado desde CDM mediante HTML)
-
-## BFF
-
-### Generación de proyecto
-Crea una nueva carpeta en el root llamada be-dashboard, en este proyecto crearemos una API Rest usando Express. Ordena el proyecto usando una arquitectura hexagonal sencilla, donde crearas tendremos como pricipales entidades Crypto y Wheather, para cada una de estas crea:
-- Repositorio (interface y implementacion)
-- Servicio (interface y implementacion)
-- Controlador (interface y implementacion)
-
-Consideraciones:
-- Usa TypeScript
-- Validaciones usando yup
-- Crea variables de entornos para manejar las URLs y claves de las APIs externas (dotenv)
-- Implementa manejo de errores con try catch
+### Implementación de pruebas
+- Implementemos pruebas unitarias, para esto comencemos con el proyecto mfe-dashboard-shell, configura Jest con ReactTestingLibrary
+- Implementa prueba unitaria al hook useDashboard, considera que hay una llamada asyncrona (fecth) la cual debemos mockear para evitar realizar una petición HTTP.
+- Implementa prueba unitaria al componente WidgetDashboard. Crea el archivo de test en el mismo directorio que el componente
+- El tests cuando isLoanding es false, no me está funcionando. Si veo en la consola que se renderiza los elementos con data-testid esperado pero el test no
