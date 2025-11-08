@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Weather } from "../../domain/entities/weather.entity";
 import { MyCrypto } from "../../domain/entities/crypto.entity";
 
@@ -9,28 +9,73 @@ const BASE_URL = "http://localhost:8081/api/v1";
 // Jmockver
 // const BASE_URL = "http://localhost:8080/api/v1";
 
+const fetchData = async <T>(url: string) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json() as T;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 
-export const useDashboard = () => {
+export const useDashboard = (cityName: string, cryptoName: string) => {
   const [weather, setWeather] = useState<Weather | null>(null);
   const [crypto, setCrypto] = useState<MyCrypto | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({ weather: false, crypto: false });
+  const queries = useRef({ city: cityName, crypto: cryptoName });
 
-  const fetchData = async (city: string, crypto: string) => {
+
+  const fetchDashboardInfo = async (cityName: string, cryptoName: string) => {
     try {
-      setIsLoading(true);
-      const url = `${BASE_URL}/dashboard?city=${city}&crypto=${crypto}`;
-      console.log(url);
-      const response = await fetch(url);
-      const data = await response.json() as { weather: Weather; crypto: MyCrypto };
+      queries.current.city = cityName;
+      queries.current.crypto = cryptoName;
+
+      setIsLoading({ weather: true, crypto: true });
+
+      const url = `${BASE_URL}/dashboard?city=${cityName}&crypto=${cryptoName}`;
+      const data = await fetchData<{ weather: Weather; crypto: MyCrypto }>(url);
 
       setWeather(data.weather);
       setCrypto(data.crypto)
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsLoading({ weather: false, crypto: false });
     }
   };
 
-  return { weather, crypto, isLoading, fetchData };
+  const fetchWeather = async (cityName: string) => {
+    const previousWeather = weather;
+    try {
+      setIsLoading(prev => ({ ...prev, weather: true }));
+      queries.current.city = cityName;
+      const url = `${BASE_URL}/dashboard?city=${cityName}&crypto=${queries.current.crypto}`;
+      const data = await fetchData<{ weather: Weather }>(url);
+
+      setWeather(data.weather);
+    } catch (error) {
+      setWeather(previousWeather);
+      console.error(error);
+    } finally {
+      setIsLoading(prev => ({ ...prev, weather: false }));
+    }
+  };
+
+  const fetchCrypto = async (cryptoName: string) => {
+    try {
+      queries.current.crypto = cryptoName;
+      setIsLoading(prev => ({ ...prev, crypto: true }));
+      const url = `${BASE_URL}/dashboard?crypto=${cryptoName}&city=${queries.current.city}`;
+      const data = await fetchData<{ crypto: MyCrypto }>(url);
+
+      setCrypto(data.crypto);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(prev => ({ ...prev, crypto: false }));
+    }
+  };
+
+  return { weather, crypto, isLoading, fetchDashboardInfo, fetchWeather, fetchCrypto };
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CryptoWidgetCard } from './components/CryptoWidgetCard';
-import { Crypto } from './domain/entities/crypto.entity';
+import { Crypto } from '../domain/entities/crypto.entity';
 
 interface CryptoWidgetProps {
   crypto: Crypto | null;

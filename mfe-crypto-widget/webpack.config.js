@@ -58,7 +58,7 @@ module.exports = {
       name: 'mfeCryptoWidget',
       filename: 'remoteEntry.js',
       exposes: {
-        './CryptoWidget': './src/CryptoWidget',
+        './CryptoWidget': './src/presentation/CryptoWidget',
       },
       shared: {
         react: { singleton: true, requiredVersion: '^19.0.0', },
