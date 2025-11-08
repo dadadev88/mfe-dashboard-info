@@ -1,0 +1,39 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dadadev88/jmockver/master/schema/jmockver-schema.json",
+  "mocks": [
+    {
+      "url": "/api/v1/dashboard",
+      "methods": {
+        "GET": {
+          "responseIdToReturn": "RESP001",
+          "responses": [
+            {
+              "id": "RESP001",
+              "statusCode": 200,
+              "sleep": 1200,
+              "body": {
+                "weather": {
+                    "city": "Miami",
+                    "country": "United States of America",
+                    "temperature": 26.7,
+                    "condition": "Partly cloudy",
+                    "icon": "https://cdn.weatherapi.com/weather/64x64/night/116.png",
+                    "humidity": 71,
+                    "windSpeed": 7.6
+                },
+                "crypto": {
+                    "id": "BTC-USD",
+                    "name": "BTC",
+                    "symbol": "USD",
+                    "price": 102575.74,
+                    "marketCap": 53849699.3365638,
+                    "change24h": 34091.9133333333
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

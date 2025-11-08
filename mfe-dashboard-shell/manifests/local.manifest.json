@@ -1,0 +1,10 @@
+[
+  {
+    "module": "mfeCryptoWidget",
+    "remoteEntryUrl": "http://localhost:3001/remoteEntry.js"
+  },
+  {
+    "module": "mfeWeatherWidget",
+    "remoteEntryUrl": "http://localhost:3002/remoteEntry.js"
+  }
+]
